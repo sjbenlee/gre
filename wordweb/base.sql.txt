@@ -1,0 +1,123 @@
+drop table if exists `word_types`;
+create table `word_types` (
+  `word_type` tinyint unsigned not null,
+   name char(20),
+ PRIMARY KEY(`word_type`)
+) TYPE=MyISAM;
+
+drop table if exists `word_senses`;
+create table `word_senses` (
+ `word_sense` mediumint unsigned not null,
+ `equiv_word` varchar (80) not null,
+ `word` varchar (80) not null,
+ `word_type` tinyint unsigned not null, 
+ `sense_no` smallint unsigned default 1, 
+ `ID` mediumint unsigned not null,
+ `usage` smallint unsigned default 0,
+ PRIMARY KEY(`word_sense`),
+ key `word` (`word`),
+ key `equiv_word` (`equiv_word`),
+ key `ID` (`ID`)
+ ) TYPE=MyISAM;
+
+drop table if exists definitions;
+create table definitions (
+ `ID` mediumint unsigned NOT NULL,
+ `Definition` TEXT, 
+ PRIMARY KEY(`ID`)
+ )  TYPE=MyISAM;
+
+drop table if exists examples;
+create table examples (
+ `word_sense` mediumint unsigned not null,
+  example TEXT,
+  key `word_sense` (`word_sense`)
+)  TYPE=MyISAM;
+
+drop table if exists `derived_types`;
+create table `derived_types` (
+  `derived_type` tinyint unsigned not null,
+  `word_type` tinyint unsigned,
+  `derivation` char(20), 
+  PRIMARY KEY(`derived_type`)
+) TYPE=MyISAM;
+
+drop table if exists derived;
+create table derived (
+ `equiv_word` varchar (40),
+ `word` varchar (40) not null,
+ `derived_type` tinyint unsigned, 
+ `root` varchar(40) not null,
+ key `word` (`word`),
+ key `equiv_word` (`equiv_word`)
+ )  TYPE=MyISAM;
+
+drop table if exists similar;
+create table similar (
+ `ID1` mediumint unsigned NOT NULL,
+ `ID2` mediumint unsigned NOT NULL,
+ KEY(`ID1`)
+ )  TYPE=MyISAM;
+
+drop table if exists `type_of`;
+create table `type_of` (
+ `ID1` mediumint unsigned NOT NULL,
+ `ID2` mediumint unsigned NOT NULL,
+ KEY(`ID1`),
+ KEY(`ID2`)
+ )  TYPE=MyISAM;
+
+drop table if exists `part_of`;
+create table `part_of` (
+ `ID1` mediumint unsigned NOT NULL,
+ `ID2` mediumint unsigned NOT NULL,
+ KEY(`ID1`),
+ KEY(`ID2`)
+ )  TYPE=MyISAM;
+
+drop table if exists `see_also`;
+create table `see_also` (
+ `word_sense1` mediumint unsigned NOT NULL,
+ `word_sense2` mediumint unsigned NOT NULL,
+ KEY(`word_sense1`)
+ )  TYPE=MyISAM;
+
+
+drop table if exists `antonym`;
+create table `antonym` (
+ `word_sense1` mediumint unsigned NOT NULL,
+ `word_sense2` mediumint unsigned NOT NULL,
+ KEY(`word_sense1`)
+ )  TYPE=MyISAM;
+
+insert into derived_types values (1,0,'Plural');
+insert into derived_types values (2,1,'Third Person');
+insert into derived_types values (3,1,'Past');
+insert into derived_types values (4,1,'Past Participle');
+insert into derived_types values (5,1,'Present Participle');
+insert into derived_types values (6,2,'Comparitive');
+insert into derived_types values (7,2,'Superlative');
+insert into derived_types values (8,1,'First Person');
+insert into derived_types values (9,1,'Second Person');
+insert into derived_types values (10,1,'Plural Past');
+
+load data local infile './wordtypes.txt' into table word_types;
+load data local infile './senses.txt' into table word_senses;
+load data local infile './definitions.txt' into table definitions;
+load data local infile './examples.txt' into table examples;
+load data local infile './derived.txt' into table derived;
+load data local infile './Type_of.txt' into table type_of;
+load data local infile './Part_of.txt' into table part_of;
+load data local infile './Similar.txt' into table similar;
+load data local infile './See_also.txt' into table see_also;
+load data local infile './Antonyms.txt' into table antonym;
+
+
+drop table if exists copyrights;
+create table copyrights (
+ copyright TEXT
+ )  TYPE=MyISAM;
+
+insert into copyrights values ('WordWeb Copyright © 2006 Antony Lewis. All Rights Reserved.');
+insert into copyrights values ('WordNet 2.1 Copyright 2005 by Princeton University. All rights reserved.\nTHIS SOFTWARE AND DATABASE IS PROVIDED "AS IS" AND PRINCETON UNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR IMPLIED. BY WAY OF EXAMPLE, BUT NOT LIMITATION, PRINCETON UNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES OF MERCHANT- ABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE OF THE LICENSED SOFTWARE, DATABASE OR DOCUMENTATION WILL NOT INFRINGE ANY THIRD PARTY PATENTS, COPYRIGHTS, TRADEMARKS OR OTHER RIGHTS. 
+');

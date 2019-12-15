@@ -1,0 +1,17 @@
+0	Noun
+1	Verb
+2	Adjective
+3	Adverb
+4	Preposition
+5	Conjunction
+6	Pronoun
+7	Interjection
+8	Prefix
+9	Combining form
+10	Abbreviation
+11	Contraction
+12	Adjective suffix
+13	Article
+14	Verb suffix
+15	Noun suffix
+16	Phrase
