@@ -41,7 +41,10 @@ def crawl_jp(word, tr, headers):
             meanings = meaning_meaning.text.split(';')
             meanings = [m.strip() for m in meanings]
             if word in meanings:
-                jp.append('%s/%s' % (jp_text.text.strip(), furigana.text.strip()))
+                if furigana == '':
+                    jp.append('%s' % jp_text.text.strip())
+                else:
+                    jp.append('%s/%s' % (jp_text.text.strip(), furigana.text.strip()))
                 for m in meanings:
                     if m != word:
                         syn_jp.append(m.strip())
